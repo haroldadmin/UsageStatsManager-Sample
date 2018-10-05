@@ -14,7 +14,7 @@ public class AppExecutors {
         // No one should be allowed to create an object of this class
     }
 
-    public static ExecutorService workExecutor = Executors.newSingleThreadExecutor();
+    public static ExecutorService workExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     public static Executor mainThreadExecutor = new Executor() {
 

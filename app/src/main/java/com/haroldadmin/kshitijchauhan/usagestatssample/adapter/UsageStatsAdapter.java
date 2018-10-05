@@ -1,6 +1,5 @@
-package com.haroldadmin.kshitijchauhan.usagestatssample;
+package com.haroldadmin.kshitijchauhan.usagestatssample.adapter;
 
-import android.app.usage.UsageStats;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.haroldadmin.kshitijchauhan.usagestatssample.R;
+import com.haroldadmin.kshitijchauhan.usagestatssample.model.UsageStatistic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,12 @@ public class UsageStatsAdapter extends RecyclerView.Adapter<UsageStatsAdapter.Vi
 
     private List<UsageStatistic> list;
     private Context context;
+    private RequestManager glide;
 
-    public UsageStatsAdapter(List<UsageStatistic> list, Context context) {
+    public UsageStatsAdapter(List<UsageStatistic> list, Context context, RequestManager glide) {
         this.list = list;
         this.context = context;
+        this.glide = glide;
     }
 
     @NonNull
@@ -43,12 +46,12 @@ public class UsageStatsAdapter extends RecyclerView.Adapter<UsageStatsAdapter.Vi
         return list.size();
     }
 
-    public void updateList(List<UsageStatistic> newList) {
-        DiffUtilCallback diffUtilCallback = new DiffUtilCallback(this.list, newList);
+    public void updateList(final List<UsageStatistic> newList) {
+        DiffUtilCallback diffUtilCallback = new DiffUtilCallback(UsageStatsAdapter.this.list, newList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
-        diffResult.dispatchUpdatesTo(this);
-        this.list.clear();
-        this.list.addAll(newList);
+        diffResult.dispatchUpdatesTo(UsageStatsAdapter.this);
+        list.clear();
+        list.addAll(newList);
     }
 
     public void clearAdapter() {
@@ -71,9 +74,7 @@ public class UsageStatsAdapter extends RecyclerView.Adapter<UsageStatsAdapter.Vi
         }
 
         public void bindValues(UsageStatistic stat) {
-            Glide.with(context)
-                    .load(stat.getIcon())
-                    .into(appIconImageView);
+            glide.load(stat.getIcon()).into(appIconImageView);
             appNameTextView.setText(stat.getName());
             startTimeTextview.setText(stat.getStartTime());
             endTimeTextView.setText(stat.getEndTime());

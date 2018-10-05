@@ -1,4 +1,4 @@
-package com.haroldadmin.kshitijchauhan.usagestatssample;
+package com.haroldadmin.kshitijchauhan.usagestatssample.model;
 
 import android.graphics.drawable.Drawable;
 
